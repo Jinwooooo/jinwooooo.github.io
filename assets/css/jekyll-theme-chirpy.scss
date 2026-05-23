@@ -1,0 +1,18 @@
+---
+---
+
+/* prettier-ignore */
+@use 'main
+{%- if jekyll.environment == 'production' -%}
+  .bundle
+{%- endif -%}
+';
+
+/* Center the sidebar bottom row (theme toggle + contact icons).
+   The gem default uses asymmetric padding and left-anchored flex,
+   which looks off once a few contact icons are removed. */
+#sidebar .sidebar-bottom {
+  justify-content: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
