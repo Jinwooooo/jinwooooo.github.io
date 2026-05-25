@@ -7,7 +7,8 @@ math: true
 mermaid: true
 description: Memorable Algorithm Problem - 백준
 image:
-  path: thumbnail.png
+  path: thumbnail.jpg
+  alt: Image by Steve Brock
 media_subpath: /assets/img/posts/2024-07-15-map-ball-chess/
 ---
 
