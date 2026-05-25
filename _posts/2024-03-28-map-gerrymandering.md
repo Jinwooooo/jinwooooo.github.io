@@ -6,7 +6,7 @@ tags: [algorithm, bfs, dfs, bitmask]
 mermaid: true
 description: Memorable Algorithm Problem - 백준
 image:
-  path: thumbnail.png
+  path: thumbnail.webp
 media_subpath: /assets/img/posts/2024-03-28-map-gerrymandering/
 ---
 
