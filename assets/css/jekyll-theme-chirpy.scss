@@ -16,3 +16,10 @@
   padding-left: 1rem;
   padding-right: 1rem;
 }
+
+/* Clip inner sub-category rows to the card's rounded corners.
+   Without this, the rectangular list-group-item backgrounds and
+   border lines poke past the card's curved edges as a grey sliver. */
+.card.categories {
+  overflow: hidden;
+}
