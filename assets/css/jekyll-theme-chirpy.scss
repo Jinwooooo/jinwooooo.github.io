@@ -23,3 +23,21 @@
 .card.categories {
   overflow: hidden;
 }
+
+/* Bootstrap utility classes used by _layouts/categories.html to make
+   the full row clickable. Chirpy's production CSS bundle is PurgeCSS-
+   pruned against the gem's own templates only, so utilities referenced
+   from repo-level layout overrides get dropped in prod but not in dev. */
+.position-relative {
+  position: relative !important;
+}
+
+.stretched-link::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  content: "";
+}
