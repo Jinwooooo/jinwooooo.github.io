@@ -204,7 +204,7 @@ public class Index implements Serializable {
 
 ## Results
 
-A plain-text copy of *A Tale of Two Cities* from [gutenberg.org](http://gutenberg.org) is used as the test corpus.
+A plain-text copy of *A Tale of Two Cities* from [gutenberg.org](https://gutenberg.org) is used as the test corpus.
 
 **Commands**
 

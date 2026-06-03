@@ -8,7 +8,7 @@ description: 컴퓨터처럼 생각하기 (기본 → 심화) 정리글
 image:
   path: thumbnail.png
   alt: Illustration by Sandbox Studio, Chicago with Steve Shanabruch
-media_subpath: /assets/img/posts/2024-08-21-thinking-like-a-computer/
+media_subpath: /assets/img/posts/2024-08-21-think-like-a-computer/
 ---
 
 ## Summary
