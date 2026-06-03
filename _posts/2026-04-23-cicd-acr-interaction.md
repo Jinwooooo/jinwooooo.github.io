@@ -1,5 +1,5 @@
 ---
-title: CI/CD - ACR interactions
+title: CI/CD: ACR interactions
 date: 2026-04-23 00:00:00 +0900
 categories: [DevOps]
 tags: [cicd, acr, github-actions, eks, oidc]
