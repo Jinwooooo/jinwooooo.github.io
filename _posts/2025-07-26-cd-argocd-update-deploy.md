@@ -154,6 +154,11 @@ End-to-end the CD process is:
 
 ## In Action
 
+Here's the workflow running end-to-end. The demo covers the full CI/CD pipeline — GitHub Actions, ArgoCD, ARC, Harbor all wired up — though the CI half is covered in a separate post.
+
+{% include embed/youtube.html id='_i946F7uWUY?start=202' %}
+_Live demo: the full CI/CD pipeline_
+
 Here's a sample run, triggered by merging a PR to `dev`:
 
 ![Update job step list with per-step durations](actions-update-job-overview.png)
