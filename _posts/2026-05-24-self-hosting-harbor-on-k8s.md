@@ -63,3 +63,10 @@ For DR: PostgreSQL WAL ships to MinIO as the first hop, then MinIO async-replica
 
 > Two operational settings that aren't optional in production: **per-project quotas** to cap storage growth, and **garbage collection** scheduled for untagged manifests. Without GC, every overwritten tag leaves dangling layers behind and storage grows monotonically.
 {: .prompt-tip }
+
+## In Action
+
+Here's Harbor sitting in a full CI/CD pipeline — GitHub Actions builds an image on an ARC runner, pushes it to Harbor, and ArgoCD picks the new tag up from there. The CI and CD halves are covered in their own posts; this clip is the end-to-end view with Harbor as the registry in the middle.
+
+{% include embed/youtube.html id='_i946F7uWUY?start=74' %}
+_Live demo: the full CI/CD pipeline with Harbor as the registry_
