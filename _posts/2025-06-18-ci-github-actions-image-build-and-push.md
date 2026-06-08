@@ -122,6 +122,11 @@ End-to-end the CI process is:
 
 ## In Action
 
+Here's the workflow running end-to-end. The demo covers the full CI/CD pipeline — GitHub Actions, ArgoCD, ARC, Harbor all wired up — though the CD half is covered in a separate post.
+
+{% include embed/youtube.html id='_i946F7uWUY?start=51' %}
+_Live demo: the full CI/CD pipeline_
+
 Here's a sample run, triggered by merging a PR to `dev`:
 
 ![GitHub Actions run summary for the merged PR](actions-job-summary.png)
