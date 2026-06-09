@@ -28,7 +28,6 @@ Deduplication can be broken down into three sub-processes:
 Chunking is conceptually simple, but gets more involved once optimizations are layered on top.
 
 ![Fixed vs. variable size chunking](deduplication-chunking-basic.png)
-_Fixed-size vs. variable-size chunking_
 
 **Fixed-size chunking** (static chunk size) deduplicates better than whole-file deduplication, but **variable-size chunking** (content-defined boundaries) is the most effective — at the cost of extra computation per chunk. This program uses variable-size chunking.
 
