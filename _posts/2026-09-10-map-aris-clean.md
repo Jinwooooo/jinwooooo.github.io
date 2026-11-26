@@ -13,9 +13,9 @@ media_subpath: /assets/img/posts/2026-09-10-map-aris-clean/
 ---
 
 > **Easy** — [백준 31404 - 아리스, 청소합니다! (Easy)](https://www.acmicpc.net/problem/31404)
->
+> 
 > **Hard** — [백준 31399 - 아리스, 청소합니다! (Hard)](https://www.acmicpc.net/problem/31399)
-{: .prompt-info }
+> {: .prompt-info }
 
 ![Problem preview](problem_preview.png)
 _문제 예시: 아리스, 청소합니다!_
@@ -46,6 +46,7 @@ flowchart TD
     K -->|Yes| Z
     K -->|No| C
 ```
+
 _시뮬레이션 흐름 (앵커 = 마지막으로 청소한 직후 상태, [Hard] 표시는 Hard 전용 최적화)_
 
 ### 2. 자료구조 및 입력받기
@@ -106,6 +107,7 @@ for (int d = 0; d < 4; d++) {
     }
 }
 ```
+
 {: file="입력 파싱 및 자료구조 초기화" }
 
 ### 3. 시뮬레이션
@@ -131,6 +133,7 @@ while (row >= 0 && row < height && col >= 0 && col < width) {
     }
 }
 ```
+
 {: file="시뮬레이션 기본 골격" }
 
 ### 4. 순환 탐지 방법
@@ -163,6 +166,7 @@ while (row >= 0 && row < height && col >= 0 && col < width) {
     }
 }
 ```
+
 {: file="순환 탐지 (선택지 3번 적용)" }
 
 이 문제의 이동은 매 순간 결정적(deterministic)이라 상태 전이가 함수 그래프(functional graph)를 이룬다. 즉, 각 상태 `(row, col, d)`는 정확히 하나의 다음 상태로만 이어진다. 이런 구조에서 순환을 확인하는 방법이 총 3가지 존재한다.
@@ -231,13 +235,14 @@ while (row >= 0 && row < height && col >= 0 && col < width) {
     }
 }
 ```
+
 {: file="[Hard] warp 경로 압축" }
 
 ## Food for Thought
 
-|  | 시간복잡도 | 공간복잡도 |
-| --- | --- | --- |
-| Easy | $O(4\times (H\times W)^2)$ | $O(2\times H\times W)$ |
+|      | 시간복잡도                                                             | 공간복잡도                   |
+| ---- | ----------------------------------------------------------------- | ----------------------- |
+| Easy | $O(4\times (H\times W)^2)$                                        | $O(2\times H\times W)$  |
 | Hard | $O(4\times H\times W\times \alpha) \approx O(4 \times H\times W)$ | $O(18\times H\times W)$ |
 
 warp를 활용하게 되면
@@ -250,17 +255,12 @@ _Easy (31404) 제출 결과: 아래가 기본 시뮬레이션, 위가 warp 적�
 
 실제로 Easy 문제에 warp를 적용해서 다시 제출해보니 차이가 확연했다.
 
-|  | 메모리 | 시간 |
-| --- | --- | --- |
-| 기본 시뮬레이션 | 2,164 KB | 188 ms |
-| warp 적용 | 2,776 KB (+612 KB) | 2 ms (약 94배 ↓) |
-
-위 표에서 예상한 그대로 메모리를 약간 더 쓰는 대신 실행 시간이 크게 줄었다. Easy는 맵이 $64 \times 64$로 작아서 기본 시뮬레이션으로도 충분히 통과하지만, 맵이 $1{,}024 \times 1{,}024$로 커지는 Hard에서는 이 차이가 곧 통과와 시간 초과를 가른다.
+예상한 그대로 메모리를 약간 더 쓰는 대신 실행 시간이 크게 줄었다. Easy는 맵이 $64 \times 64$로 작아서 기본 시뮬레이션으로도 충분히 통과하지만, 맵이 $1{,}024 \times 1{,}024$로 커지는 Hard에서는 이 차이가 곧 통과와 시간 초과를 가른다.
 
 이 문제를 처음 접근했을 때는 분리 집합 (Disjoint Set Union, DSU)을 활용하면 좋을 것 같았다. 하지만 막상 구현해보니 Union-Find는 '같은 그룹에 속한다'는 정보를 유지하는 자료구조인 반면, 이 문제는 순회한 경로가 무조건 하나의 종착지로 이어져야 해서 잘 맞지 않았다. 한참 고생하다 '굳이 분리 집합을 쓸 필요가 있을까?' 하는 생각이 문득 들었고, 그룹이 아니라 경로 자체만 압축하는 방향으로 관점을 바꿔서 풀어낸 결과물이다.
 
 > **Micro optimizations**
->
+> 
 > - vector대신 fixed-sized array 활용 (Heap 메모리 → Stack 메모리 활용)
 > - warp 자료구조를 4D array 대신 flattened array를 활용 (access overhead 감소)
-{: .prompt-tip }
+>   {: .prompt-tip }
