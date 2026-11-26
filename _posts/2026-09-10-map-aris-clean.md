@@ -17,8 +17,8 @@ media_subpath: /assets/img/posts/2026-09-10-map-aris-clean/
 > **Hard** — [백준 31399 - 아리스, 청소합니다! (Hard)](https://www.acmicpc.net/problem/31399)
 {: .prompt-info }
 
-> 문제 미리보기 이미지는 BOJ 문제 페이지 이용이 가능해지면 업데이트할 예정이다.
-{: .prompt-info }
+![Problem preview](problem_preview.png)
+_문제 예시: 아리스, 청소합니다!_
 
 ## 요약
 
@@ -53,13 +53,14 @@ _시뮬레이션 흐름 (앵커 = 마지막으로 청소한 직후 상태, [Hard
 ```cpp
 int height, width;
 int srow, scol, sd;
-int result = 0;
+// 이동 횟수는 int 범위를 넘을 수 있으므로 long long 사용
+long long result = 0;
 vector<vector<vector<int>>> grid;
 vector<vector<bool>> clean;
 vector<int> drow = { -1,0,1,0 };
 vector<int> dcol = { 0,1,0,-1 };
-// [Hard 전용]
-vector<vector<vector<tuple<int,int,int,int>>>> warp;
+// [Hard 전용] { 도착 row, 도착 col, 도착 방향, 건너뛰는 이동 횟수 }
+vector<vector<vector<tuple<int,int,int,long long>>>> warp;
 
 cin >> height >> width;
 cin >> srow >> scol >> sd;
@@ -71,7 +72,7 @@ clean.resize(height, vector<bool>(width, false));
  * 순회한 경로에서 분기점을 맞이할때 현재 시점으로 바로 점프 (warp)
  * 할 수 있도록 자료구조를 추가로 활용한다
  */
-warp.resize(4, vector<vector<tuple<int,int,int,int>>>(height, vector<tuple<int,int,int,int>>(width, { -1,-1,-1,0 })));
+warp.resize(4, vector<vector<tuple<int,int,int,long long>>>(height, vector<tuple<int,int,int,long long>>(width, { -1,-1,-1,0 })));
 
 for (int depth = 0; depth < 2; depth++) {
     for (int row = 0; row < height; row++) {
@@ -175,6 +176,8 @@ while (row >= 0 && row < height && col >= 0 && col < width) {
 ### 5. [Hard 전용] `warp` 자료구조 활용
 
 ```cpp
+long long tick = 0;
+int crow = row, ccol = col, cd = d;
 // 지금까지 순회한 경로 저장소
 stack<tuple<int,int,int>> stk;
 
@@ -188,15 +191,16 @@ while (row >= 0 && row < height && col >= 0 && col < width) {
 
         int nd = (d + grid[0][row][col]) % 4;
 
-        // 누적거리 변수
-        int adist = 0;
+        // 누적거리 변수 (스택 top부터 현재 칸까지 건너뛴 이동 횟수)
+        long long adist = 0;
         while (!stk.empty()) {
             auto [trow, tcol, td] = stk.top();
             stk.pop();
 
             auto [x, y, z, mdist] = warp[td][trow][tcol];
             warp[td][trow][tcol] = { row, col, d, mdist + adist };
-            adist++;
+            // 이 칸에서 점프 1번 + 점프가 건너뛴 mdist만큼 누적
+            adist += mdist + 1;
         }
 
         d = nd;
@@ -240,6 +244,18 @@ warp를 활용하게 되면
 
 - 시간복잡도 대폭 감소 (polynomial → linear)
 - 공간복잡도 소폭 증가
+
+![BOJ result](boj_result.png)
+_Easy (31404) 제출 결과: 아래가 기본 시뮬레이션, 위가 warp 적용_
+
+실제로 Easy 문제에 warp를 적용해서 다시 제출해보니 차이가 확연했다.
+
+|  | 메모리 | 시간 |
+| --- | --- | --- |
+| 기본 시뮬레이션 | 2,164 KB | 188 ms |
+| warp 적용 | 2,776 KB (+612 KB) | 2 ms (약 94배 ↓) |
+
+위 표에서 예상한 그대로 메모리를 약간 더 쓰는 대신 실행 시간이 크게 줄었다. Easy는 맵이 $64 \times 64$로 작아서 기본 시뮬레이션으로도 충분히 통과하지만, 맵이 $1{,}024 \times 1{,}024$로 커지는 Hard에서는 이 차이가 곧 통과와 시간 초과를 가른다.
 
 이 문제를 처음 접근했을 때는 분리 집합 (Disjoint Set Union, DSU)을 활용하면 좋을 것 같았다. 하지만 막상 구현해보니 Union-Find는 '같은 그룹에 속한다'는 정보를 유지하는 자료구조인 반면, 이 문제는 순회한 경로가 무조건 하나의 종착지로 이어져야 해서 잘 맞지 않았다. 한참 고생하다 '굳이 분리 집합을 쓸 필요가 있을까?' 하는 생각이 문득 들었고, 그룹이 아니라 경로 자체만 압축하는 방향으로 관점을 바꿔서 풀어낸 결과물이다.
 
